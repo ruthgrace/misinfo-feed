@@ -7,6 +7,14 @@
 Using the two in conjunction is one of the fastest ways to build a web app.
 
 ### Getting Started
+
+#### Set up CORS anywhere
+
+- Create a replit and click Import from GitHub. Select the CORS anywhere repo (https://github.com/Rob--W/cors-anywhere) to import, and hit Run.
+
+#### Set up web dev environment
+
+- Set `const corsProxy` to the URL of the CORS anywhere replit
 - Hit run
 - Edit [App.tsx](#src/App.tsx) and watch it live update!
 
