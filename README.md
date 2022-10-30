@@ -13,8 +13,15 @@ Using the two in conjunction is one of the fastest ways to build a web app.
 - Create a replit and click Import from GitHub. Select the CORS anywhere repo (https://github.com/Rob--W/cors-anywhere) to import, and hit Run.
 
 #### Set up web dev environment
-
+The code template used at first was the React Typescript one from Replit.
 - Set `const corsProxy` to the URL of the CORS anywhere replit
+- Install tailwind
+
+```
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+
 - Hit run
 - Edit [App.tsx](#src/App.tsx) and watch it live update!
 
