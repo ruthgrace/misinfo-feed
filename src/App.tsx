@@ -19,7 +19,7 @@ export default function App() {
   console.log('test code mobile')
 
   return (
-    <main>
+    <main className="p-5">
       <Feed entry={(posts ?? [])[1]} />
     </main>
   )
@@ -31,9 +31,18 @@ export function Feed({
 }: { entry?: FeedEntry }) {
   return (
     <div>
-      <h4>{entry?.title}</h4>
-      {entry?.published}
-      {entry?.description}
+
+      <div className="grid grid-cols-4 gap-4">
+        <div>{entry?.link}</div>
+        <div className="col-span-3">
+          <div className="text-xl">{entry?.title}</div>
+          <small>{entry?.published}</small>
+          <p>{entry?.description}</p>
+        </div>
+      </div>
     </div>
   )
 }
+
+// https://tailwindcss.com/docs/font-size
+// https://www.npmjs.com/package/fetch-opengraph
