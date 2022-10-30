@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css'
 import { read, FeedEntry } from 'feed-reader'
+import { fetch } from 'fetch-opengraph';
 
 const corsProxy = "https://cors-anywhere.robinpham1.repl.co"
 const url = `${corsProxy}/factcheck.org/feed/`
@@ -31,9 +32,8 @@ export function Feed({
 }: { entry?: FeedEntry }) {
   return (
     <div>
-
       <div className="grid grid-cols-4 gap-4">
-        <div>{entry?.link}</div>
+        <div>image here</div>
         <div className="col-span-3">
           <div className="text-xl">{entry?.title}</div>
           <small>{entry?.published}</small>

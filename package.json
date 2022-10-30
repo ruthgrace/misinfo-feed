@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "feed-reader": "^6.1.2",
+    "fetch-opengraph": "^1.0.35",
     "rss-parser": "^3.12.0"
   },
   "devDependencies": {
