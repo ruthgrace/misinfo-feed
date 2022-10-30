@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css'
 import { read, FeedEntry } from 'feed-reader'
 
@@ -7,7 +7,7 @@ const url = `${corsProxy}/factcheck.org/feed/`
 
 export default function App() {
   const [posts, setPosts] = useState<FeedEntry[]>()
-  
+
   React.useEffect(() => {
     read(url).then(res => {
       console.log('result', res);
@@ -20,9 +20,20 @@ export default function App() {
 
   return (
     <main>
-      <code>
-        {JSON.stringify(posts ?? [], null, 2)}
-      </code>
+      <Feed entry={(posts ?? [])[1]} />
     </main>
+  )
+}
+
+
+export function Feed({
+  entry
+}: { entry?: FeedEntry }) {
+  return (
+    <div>
+      <h4>{entry?.title}</h4>
+      {entry?.published}
+      {entry?.description}
+    </div>
   )
 }
