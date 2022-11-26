@@ -46,6 +46,7 @@ export default function App() {
     ...useGetFeed('cyf'),
     ...useGetFeed('ls'),
     ...useGetFeed('pf'),
+    ...useGetFeed('sf'),
   ]
   console.log('allPosts', allPosts)
 

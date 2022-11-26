@@ -20,5 +20,10 @@ export const rssConfigs: Record<string, { url: string, website: string, logo: st
     website: "politifact.com",
     logo: "/public/politifact_logo.png",
     url: `${corsProxy}/www.politifact.com/rss/factchecks/`,
+  },
+  sf: {
+    website: "sciencefeedback.co",
+    logo: "/public/sciencefeedback_logo.png",
+    url: `${corsProxy}/sciencefeedback.co/feed/`,
   }
 }
