@@ -25,5 +25,10 @@ export const rssConfigs: Record<string, { url: string, website: string, logo: st
     website: "sciencefeedback.co",
     logo: "/public/sciencefeedback_logo.png",
     url: `${corsProxy}/sciencefeedback.co/feed/`,
+  },
+  dp: {
+    website: "thedispatch.com",
+    logo: "/public/dispatch_logo.png",
+    url: `${corsProxy}/thedispatch.com/category/fact-check/feed/`,
   }
 }

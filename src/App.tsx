@@ -47,6 +47,7 @@ export default function App() {
     ...useGetFeed('ls'),
     ...useGetFeed('pf'),
     ...useGetFeed('sf'),
+    ...useGetFeed('dp'),
   ]
   console.log('allPosts', allPosts)
 
