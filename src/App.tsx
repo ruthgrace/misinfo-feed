@@ -6,6 +6,15 @@ import { fetch } from 'fetch-opengraph';
 const corsProxy = "https://cors-anywhere.robinpham1.repl.co"
 const url = `${corsProxy}/factcheck.org/feed/`
 
+interface FeedItem {
+  timestamp?: Date;
+  link?: string;
+  title?: string;
+  description?: string;
+  website: string;
+  logo: string;
+}
+
 export default function App() {
   const [posts, setPosts] = useState<FeedEntry[]>()
 
@@ -18,26 +27,49 @@ export default function App() {
 
   console.log('Posts', posts)
   console.log('test code mobile')
+  // new data structure with description, link, timestamp, title, website, website logo
+
+  let factcheckPosts: FeedItem[] = posts?.map(p => {
+    return {
+      timestamp: p.published,
+      link: p.link,
+      title: p.title,
+      description: p.description,
+      website: "factcheck.org",
+      logo: "/public/factcheckorg_logo.png",
+    }
+  }) ?? [];
+
+  console.log('factcheckPosts', factcheckPosts)
+  let allPosts: FeedItem[] = new Array(0)
+  allPosts = allPosts.concat(factcheckPosts)
+  console.log('allPosts', allPosts)
 
   return (
     <main className="p-5">
-      <Feed entry={(posts ?? [])[1]} />
+      <Feeds posts={allPosts ?? []} />
     </main>
   )
 }
 
+export function Feeds({ posts }: { posts: FeedItem[] }) {
+  return posts.map(entry => {
+    return <FeedRow entry={entry} />
+  })
+}
 
-export function Feed({
+
+export function FeedRow({
   entry
-}: { entry?: FeedEntry }) {
+}: { entry: FeedItem }) {
   return (
     <div>
       <div className="grid grid-cols-4 gap-4">
-        <div>image here</div>
+        <img src={entry.logo} />
         <div className="col-span-3">
-          <div className="text-xl">{entry?.title}</div>
-          <small>{entry?.published}</small>
-          <p>{entry?.description}</p>
+          <div className="text-xl">{entry.title}</div>
+          <small>{entry.timestamp}</small>
+          <p>{entry.description}</p>
         </div>
       </div>
     </div>
