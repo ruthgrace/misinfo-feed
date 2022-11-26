@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css'
 import { read, FeedEntry } from 'feed-reader'
 import { fetch } from 'fetch-opengraph';
-
-const corsProxy = "https://cors-anywhere.robinpham1.repl.co"
-const url = `${corsProxy}/factcheck.org/feed/`
+import { rssConfigs } from './const.ts';
 
 interface FeedItem {
   timestamp?: Date;
@@ -15,34 +13,40 @@ interface FeedItem {
   logo: string;
 }
 
-export default function App() {
+function useGetFeed(key: string) {
+  const { url, website, logo } = rssConfigs[key]
   const [posts, setPosts] = useState<FeedEntry[]>()
 
   React.useEffect(() => {
     read(url).then(res => {
-      console.log('result', res);
+      console.log('result: url', res, url);
       setPosts(res.entries)
     }).catch(e => console.error(e))
   }, [])
 
-  console.log('Posts', posts)
-  console.log('test code mobile')
-  // new data structure with description, link, timestamp, title, website, website logo
-
-  let factcheckPosts: FeedItem[] = posts?.map(p => {
+  const feedItems: FeedItem[] = posts?.map(p => {
     return {
       timestamp: p.published,
       link: p.link,
       title: p.title,
       description: p.description,
-      website: "factcheck.org",
-      logo: "/public/factcheckorg_logo.png",
+      website,
+      logo,
     }
   }) ?? [];
 
-  console.log('factcheckPosts', factcheckPosts)
-  let allPosts: FeedItem[] = new Array(0)
-  allPosts = allPosts.concat(factcheckPosts)
+  return feedItems;
+}
+
+
+export default function App() {
+
+  let allPosts: FeedItem[] = [
+    ...useGetFeed('fco'),
+    ...useGetFeed('cyf'),
+    ...useGetFeed('ls'),
+    ...useGetFeed('pf'),
+  ]
   console.log('allPosts', allPosts)
 
   return (
