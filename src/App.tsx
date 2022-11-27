@@ -13,6 +13,7 @@ interface FeedItem {
   logo: string;
 }
 
+
 function useGetFeed(key: string) {
   const { url, website, logo } = rssConfigs[key]
   const [posts, setPosts] = useState<FeedEntry[]>()
@@ -22,8 +23,7 @@ function useGetFeed(key: string) {
       console.log('result: url', res, url);
       setPosts(res.entries)
     }).catch(e => console.error(e))
-  }, [])
-
+  }, [])  
   const feedItems: FeedItem[] = posts?.map(p => {
     return {
       timestamp: p.published,
@@ -51,8 +51,27 @@ export default function App() {
   ]
   console.log('allPosts', allPosts)
 
+  
+  const searchBar = () => {}
+  const [searchInput, setSearchInput] = useState("");
+  const handleChange = (e) => {
+    e.preventDefault();
+    setSearchInput(e.target.value);
+  };
+  
+  if (searchInput.length > 0) {
+      allPosts = allPosts.filter((post) => {
+      return post.title.includes(searchInput);
+  });
+  }
+
   return (
     <main className="p-5">
+      <input
+       type="search"
+       placeholder="Search here"
+       onChange={handleChange}
+       value={searchInput} />
       <Feeds posts={allPosts ?? []} />
     </main>
   )
