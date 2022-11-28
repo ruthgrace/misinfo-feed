@@ -53,6 +53,11 @@ export default function App() {
 
   allPosts = allPosts.sort((n1, n2) => n2.timestamp.getTime() - n1.timestamp.getTime());
 
+  // include only COVID content
+  /* allPosts = allPosts.filter((post) => {
+    return post.title.includes("COVID") || post.description.includes("COVID");
+  }); */
+
   const searchBar = () => { }
   const [searchInput, setSearchInput] = useState("");
   const handleChange = (e) => {
