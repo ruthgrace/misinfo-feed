@@ -26,7 +26,7 @@ function useGetFeed(key: string) {
   }, [])
   const feedItems: FeedItem[] = posts?.map(p => {
     return {
-      timestamp: p.published,
+      timestamp: new Date(p.published),
       link: p.link,
       title: p.title,
       description: p.description,
@@ -51,6 +51,7 @@ export default function App() {
   ]
   console.log('allPosts', allPosts)
 
+  allPosts = allPosts.sort((n1, n2) => n2.timestamp.getTime() - n1.timestamp.getTime());
 
   const searchBar = () => { }
   const [searchInput, setSearchInput] = useState("");
@@ -92,8 +93,8 @@ export function FeedRow({
       <div className="grid grid-cols-4 gap-4">
         <img src={entry.logo} />
         <div className="col-span-3">
-          <div className="text-xl">{entry.title}</div>
-          <small>{entry.timestamp}</small>
+          <div className="text-xl"><a href={entry.link}>{entry.title}</a></div>
+          <small>{entry.timestamp.toString()}</small>
           <p>{entry.description}</p>
         </div>
       </div>
