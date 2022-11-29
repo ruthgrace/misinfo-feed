@@ -94,16 +94,16 @@ export function FeedRow({
   entry
 }: { entry: FeedItem }) {
   return (
-    <div>
-      <div className="grid grid-cols-4 gap-4">
-        <img src={entry.logo} />
+      <div className="feedrow grid grid-cols-4 gap-4">
+        <div className = "logocol">
+          <img src={entry.logo} />
+        </div>
         <div className="col-span-3">
           <div className="text-xl"><a href={entry.link}>{entry.title}</a></div>
           <small>{entry.timestamp.toString()}</small>
           <p>{entry.description}</p>
         </div>
       </div>
-    </div>
   )
 }
 

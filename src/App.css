@@ -1,0 +1,9 @@
+.feedrow {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+}
+.logocol {
+  display: flex;
+  justify-content: center;
+}
