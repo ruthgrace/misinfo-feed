@@ -52,7 +52,7 @@ export default function App() {
     ...useGetFeed('apn'),
     ...useGetFeed('ust'),
     ...useGetFeed('rfc'),
-    
+
   ]
   console.log('allPosts', allPosts)
 
@@ -78,6 +78,8 @@ export default function App() {
 
   return (
     <main className="p-5">
+      <h1>Misinformation Feed</h1>
+      <p>This is a feed of public health related fact-checks that you can filter by keyword. Fact checks are collated from Facebook's list of third party, English-language fact checkers for American content.</p>
       <input
         type="search"
         placeholder="Search here"
