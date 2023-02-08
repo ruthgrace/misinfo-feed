@@ -30,5 +30,10 @@ export const rssConfigs: Record<string, { url: string, website: string, logo: st
     website: "thedispatch.com",
     logo: "/dispatch_logo.png",
     url: `${corsProxy}/thedispatch.com/category/fact-check/feed/`,
-  }
+  },
+  afp: {
+    website: "factcheck.afp.com",
+    logo: "/afp_logo.png",
+    url: `${corsProxy}/fetchrss.com/rss/63e30011159c8661cc0e220363e30108ee53d979d0373672.xml`,
+  },
 }
