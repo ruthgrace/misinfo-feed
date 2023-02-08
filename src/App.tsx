@@ -49,6 +49,10 @@ export default function App() {
     ...useGetFeed('sf'),
     ...useGetFeed('dp'),
     ...useGetFeed('afp'),
+    ...useGetFeed('apn'),
+    ...useGetFeed('ust'),
+    ...useGetFeed('rfc'),
+    
   ]
   console.log('allPosts', allPosts)
 
