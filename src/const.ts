@@ -6,12 +6,11 @@ export const rssConfigs: Record<string, { url: string, website: string, logo: st
     logo: "/factcheckorg_logo.png",
     url: `${corsProxy}/factcheck.org/feed/`,
   },
-  /* These link to the Daily Caller where most of the articles are not actually fact checks
   cyf: {
     website: "checkyourfact.com",
     logo: "/check-logo.png",
     url: `${corsProxy}/checkyourfact.com/feed/`,
-  }, */
+  },
   ls: {
     website: "leadstories.com",
     logo: "/Logo_LeadStories.png",
