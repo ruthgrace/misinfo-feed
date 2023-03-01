@@ -43,7 +43,6 @@ export default function App() {
   let search_present = false
   let allPosts: FeedItem[] = [
     ...useGetFeed('fco'),
-    ...useGetFeed('cyf'),
     ...useGetFeed('ls'),
     ...useGetFeed('pf'),
     ...useGetFeed('sf'),
