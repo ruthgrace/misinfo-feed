@@ -40,7 +40,7 @@ function useGetFeed(key: string) {
 
 
 export default function App() {
-
+  let search_present = false
   let allPosts: FeedItem[] = [
     ...useGetFeed('fco'),
     ...useGetFeed('cyf'),
@@ -68,6 +68,7 @@ export default function App() {
   const handleChange = (e) => {
     e.preventDefault();
     setSearchInput(e.target.value);
+    search_present = (e.target.value.length > 0);
   };
 
   if (searchInput.length > 0) {
@@ -85,7 +86,16 @@ export default function App() {
         placeholder="Search here"
         onChange={handleChange}
         value={searchInput} />
-      <Feeds posts={allPosts ?? []} />
+      {search_present ?
+        <div>
+          <p>Link to your search - fake_search_link</p>
+          <button type="button"> Subscribe to email updates for this search result</button>
+        </div>
+        :
+        <div>
+          <br/>
+        </div>}
+      <p></p><Feeds posts={allPosts ?? []} />
     </main>
   )
 }
