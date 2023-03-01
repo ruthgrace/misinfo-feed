@@ -97,11 +97,11 @@ export default function App() {
         value={searchInput} />
       {search_present ?
         <div>
-          <p>hjgkhghjghjghj</p>
+          <p>Link to search - [TODO put link here]</p>
         </div>
         :
         <div>
-          <p>PLACEHOLDER no search yet</p>
+          <br/>
         </div>}
       <p></p><Feeds posts={allPosts ?? []} />
     </main>
