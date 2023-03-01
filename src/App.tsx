@@ -13,7 +13,6 @@ interface FeedItem {
   logo: string;
 }
 
-
 function useGetFeed(key: string) {
   const { url, website, logo } = rssConfigs[key]
   const [posts, setPosts] = useState<FeedEntry[]>()
@@ -40,7 +39,6 @@ function useGetFeed(key: string) {
 
 
 export default function App() {
-  let search_present = false
   let allPosts: FeedItem[] = [
     ...useGetFeed('fco'),
     ...useGetFeed('ls'),
@@ -64,10 +62,22 @@ export default function App() {
 
   const searchBar = () => { }
   const [searchInput, setSearchInput] = useState("");
+  const search_present = searchInput.length > 0;
+
+  let search = window.location.search;
+  let params = new URLSearchParams(search);
+  let search_query = params.get('search') || false; // contents of query param "search" i.e. https://foo.bar?search=foo
+  if (search_query != false) {
+    const search_present = true;
+    const searchInput = search_query;  //redefine searchInput to the value provided in the url
+    //(prob need to sanitize / anti XSS this user input?)
+    // TODO: set the text inside the search box to this value as well but it hasn't been defined yet
+    // TODO: make the search actually use this
+  }
+
   const handleChange = (e) => {
     e.preventDefault();
     setSearchInput(e.target.value);
-    search_present = (e.target.value.length > 0);
   };
 
   if (searchInput.length > 0) {
@@ -87,12 +97,11 @@ export default function App() {
         value={searchInput} />
       {search_present ?
         <div>
-          <p>Link to your search - fake_search_link</p>
-          <button type="button"> Subscribe to email updates for this search result</button>
+          <p>hjgkhghjghjghj</p>
         </div>
         :
         <div>
-          <br/>
+          <p>PLACEHOLDER no search yet</p>
         </div>}
       <p></p><Feeds posts={allPosts ?? []} />
     </main>
