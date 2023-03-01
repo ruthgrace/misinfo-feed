@@ -13,6 +13,8 @@ interface FeedItem {
   logo: string;
 }
 
+const site_url = "https://misinfo-feed.ruth-gracegrace.repl.co/"
+
 function useGetFeed(key: string) {
   const { url, website, logo } = rssConfigs[key]
   const [posts, setPosts] = useState<FeedEntry[]>()
@@ -63,17 +65,13 @@ export default function App() {
   const searchBar = () => { }
   const [searchInput, setSearchInput] = useState("");
   const search_present = searchInput.length > 0;
-
-  let search = window.location.search;
-  let params = new URLSearchParams(search);
-  let search_query = params.get('search') || false; // contents of query param "search" i.e. https://foo.bar?search=foo
-  if (search_query != false) {
-    const search_present = true;
-    const searchInput = search_query;  //redefine searchInput to the value provided in the url
-    //(prob need to sanitize / anti XSS this user input?)
-    // TODO: set the text inside the search box to this value as well but it hasn't been defined yet
-    // TODO: make the search actually use this
-  }
+  const search_link = site_url + "?search=" + searchInput
+  useEffect(() => {
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    let search_query = params.get('search') || ''; // contents of query param "search" i.e. https://foo.bar?search=foo
+    setSearchInput(search_query)
+  }, []);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -97,7 +95,7 @@ export default function App() {
         value={searchInput} />
       {search_present ?
         <div>
-          <p>Link to search - [TODO put link here]</p>
+          <p>Link to search - <a href={search_link}>{search_link}</a></p>
           <button class="btn btn-blue">Subscribe to this search</button>
         </div>
         :
