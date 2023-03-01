@@ -98,9 +98,11 @@ export default function App() {
       {search_present ?
         <div>
           <p>Link to search - [TODO put link here]</p>
+          <button class="btn btn-blue">Subscribe to this search</button>
         </div>
         :
         <div>
+          <br/>
           <br/>
         </div>}
       <p></p><Feeds posts={allPosts ?? []} />

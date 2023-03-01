@@ -7,3 +7,12 @@
   display: flex;
   justify-content: center;
 }
+.btn {
+  @apply py-0 px-2 rounded;
+}
+.btn-blue {
+  @apply bg-blue-500 text-white;
+}
+.btn-blue:hover {
+  @apply bg-blue-700;
+}
