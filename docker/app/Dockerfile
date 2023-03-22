@@ -3,9 +3,7 @@ FROM node-misinfo
 ENV DEBCONF_FRONTEND=noninteractive
 
 RUN apt-get -y update && \
-  apt-get -y install git \
-    build-essential \
-    curl \
+  apt-get -y install curl \
     certbot && \
     apt-get -y dist-upgrade
 

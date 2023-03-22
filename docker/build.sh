@@ -15,10 +15,12 @@ docker build -t node-misinfo .
 
 cp -a ../../public "$BUILD/$APP"
 cp -a ../../src "$BUILD/$APP"
-cp -a ../../backend/app.js "$BUILD/$BACKEND"
+cp -a ../../backend/app.ts "$BUILD/$BACKEND"
+cp -a ../../package.json "$BUILD/$BACKEND"
+cp -a ../../tsconfig.json "$BUILD/$BACKEND"
 cp -a ../app/Dockerfile app
 cp -a ../backend/Dockerfile backend
 
-docker build --no-cache -t misinfo-app app
+# docker build --no-cache -t misinfo-app app
 docker build --no-cache -t misinfo-backend backend
 
