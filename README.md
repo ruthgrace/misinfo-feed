@@ -1,3 +1,12 @@
+# pulling the repo
+
+```
+git clone https://github.com/ruthgrace/misinfo-feed.git
+git submodule update --init
+```
+
+# Replit
+
 ## Running React on Repl.it
 
 [React](https://reactjs.org/) is a popular JavaScript library for building user interfaces.
