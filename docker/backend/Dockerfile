@@ -10,6 +10,8 @@ RUN apt-get -y update && \
     apt-get -y dist-upgrade
 
 RUN mkdir -p /opt/app
-COPY ../../backend/* /opt/app
+COPY app.js /opt/app
+WORKDIR /opt/app
+CMD [ "node", "app.js" ]
 
 

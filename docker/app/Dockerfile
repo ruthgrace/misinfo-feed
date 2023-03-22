@@ -10,5 +10,5 @@ RUN apt-get -y update && \
     apt-get -y dist-upgrade
 
 RUN mkdir -p /opt/app
-COPY ../../public /opt/app
-COPY ../../src /opt/app
+COPY public /opt/app
+COPY src /opt/app
