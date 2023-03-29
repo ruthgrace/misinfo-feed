@@ -22,5 +22,5 @@ cp -a ../app/Dockerfile app
 cp -a ../backend/Dockerfile backend
 
 # docker build --no-cache -t misinfo-app app
-docker build --no-cache -t misinfo-backend backend
-
+# docker build --no-cache -t misinfo-backend backend
+docker build --no-cache -t misinfo-fetch-new-articles fetch-new-articles
