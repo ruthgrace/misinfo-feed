@@ -1,3 +1,4 @@
+# Format:  headline text, whether or not it should be considered healthcare related.
 TESTCASES = [
     ("Fact Check: Video Does NOT Show Military Enforcement Of No-Fly Zone Over Antarctica",False),
     ("Fact Check: Photos Of Passport Do NOT Prove President Barack Obama Was Born In Kenya -- It was His Father\'s Passport",False),
