@@ -4,10 +4,11 @@ set -e
 BUILD="$(pwd)/build"
 APP="app"
 BACKEND="backend"
+FETCH_NEW="fetch-new-articles"
 
 git submodule update --init
 
-rm -rf "$BUILD" && mkdir -p "$BUILD" "$BUILD/$APP" "$BUILD/$BACKEND" && cd "$BUILD"
+rm -rf "$BUILD" && mkdir -p "$BUILD" "$BUILD/$APP" "$BUILD/$BACKEND" "$BUILD/$FETCH_NEW" && cd "$BUILD"
 
 cp ../docker-node/19/bullseye/* .
 
@@ -20,7 +21,8 @@ cp -a ../../package.json "$BUILD/$BACKEND"
 cp -a ../../tsconfig.json "$BUILD/$BACKEND"
 cp -a ../app/Dockerfile app
 cp -a ../backend/Dockerfile backend
+cp -a ../fetch-new-articles/* "$FETCH_NEW"
 
 # docker build --no-cache -t misinfo-app app
-docker build --no-cache -t misinfo-backend backend
-
+# docker build --no-cache -t misinfo-backend backend
+docker build -t misinfo-fetch-new-articles fetch-new-articles
