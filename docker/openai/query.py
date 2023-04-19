@@ -20,7 +20,8 @@ def strtobool(response):
     first_word = response.split()[0].lower()
     if "no" in first_word:
         return False
-    return True
+    elif "yes" in first_word:
+        return True
 
 def check_prompt(prompt, expected_response):
     response = gen_request(prompt, expected_response) 
@@ -39,7 +40,7 @@ def call_chatgpt(conversation):
 def gen_request(user_input, expected_response):
     print(f'Checking prompt: {user_input}, expected response is {expected_response}')
 
-    user_prompt = f'Is the phrase "{user_input}" related to health, health care, disease, or public health in any way? Please answer "Yes" or "No". If you are unsure, say "Unsure".'
+    user_prompt = f'Is a news headline "{user_input}" related to health, health care, disease, or public health in any way? Please answer "Yes" or "No". If you are unsure, say "Unsure".'
     #user_prompt = f'Does the phrase "{user_input}" relate to health care in any way?'
     conversation = [
         {"role": "system", "content": "You are ChatGPT, a large language model trained by OpenAI.  You are trained to look at a sentence and give a yes or no answer as to whether the sentence is healthcare related."},
@@ -50,7 +51,11 @@ def gen_request(user_input, expected_response):
 
 def check_response(response, expected_response):
     if expected_response is not None:
-        if expected_response == strtobool(response):
+        response_bool = strtobool(response)
+        if not response_bool:
+            print(colorama.Fore.YELLOW + '[UNSURE]: AI did not return a definitive answer')
+            return
+        if expected_response == response_bool:
             print(colorama.Fore.GREEN + '[SUCCESS]: Reply matched expected response!')
             return True
         else:
@@ -72,9 +77,10 @@ elif args.a:
     failures = 0
     total = len(TESTCASES)
     for testdata in TESTCASES:
+        # 'Unsure' is currently considered a failure
         if not check_prompt(*testdata):
             failures += 1
-    print(f'Success Rate: {(total - failures) / total * 100}%')
+    print(f'Success Rate: [{total - failures}/{total}] ({(total - failures) / total * 100}%)')
 
 else:
     testdata = random.choice(TESTCASES)

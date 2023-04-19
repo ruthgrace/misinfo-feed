@@ -25,4 +25,6 @@ TESTCASES = [
     ("Fact Check: Washington State Bill Does NOT Allow Government To Take Minor Children Away From Parents If They Refuse To Agree To Gender Transition Surgery", True),
     ("Fact Check: Usnea Lichen Is NOT Proven To Be More Effective Antibiotic Than Doxycycline and Penicillin", True),
     ("Fact Check: Radio Wave, Mobile Phone Technology Do NOT Cause Influenza, COVID Outbreaks", True),
+    ("Fact Check: Computer Virus does NOT cause your hair to turn red", False),
+    ("Fact Check: Leaded gasoline responsible for significant IQ drop with childhood exposure", True),
 ]
