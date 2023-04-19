@@ -21,4 +21,8 @@ TESTCASES = [
     ("Facebook posts - Did Canada make it illegal to protest LGBTQ+ people? No, here’s what a proposed bill would do",False),
     ("Fact Check: Rep. Jim Jordan Did NOT Slap Robert Mueller During Testimony",False),
     ("Fact Check: Justin Bieber's Mother Did NOT Say Her Son Was Conceived As Result Of Rape In Her Autobiography",False),
+    ("Fact Check: Video's Audio Does NOT Have Fallon Fox Speaking In Authentic Voice", False),
+    ("Fact Check: Washington State Bill Does NOT Allow Government To Take Minor Children Away From Parents If They Refuse To Agree To Gender Transition Surgery", True),
+    ("Fact Check: Usnea Lichen Is NOT Proven To Be More Effective Antibiotic Than Doxycycline and Penicillin", True),
+    ("Fact Check: Radio Wave, Mobile Phone Technology Do NOT Cause Influenza, COVID Outbreaks", True),
 ]
