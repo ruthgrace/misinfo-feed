@@ -24,7 +24,7 @@ def strtobool(response):
 
 def check_prompt(prompt, expected_response):
     response = gen_request(prompt, expected_response) 
-    output_response(response, expected_response)
+    return output_response(response, expected_response)
 
 def call_chatgpt(conversation):
     # Call the OpenAI API to generate a response
@@ -39,7 +39,7 @@ def call_chatgpt(conversation):
 def gen_request(user_input, expected_response):
     print(f'Checking prompt: {user_input}, expected response is {expected_response}')
 
-    user_prompt = f'Is this phrase related to health, disease, or public health in any way? Please answer "Yes" or "No". If you are unsure, say "Unsure". The headline is: {user_input}'
+    user_prompt = f'Is the phrase "{user_input}" related to health, health care, disease, or public health in any way? Please answer "Yes" or "No". If you are unsure, say "Unsure".'
     #user_prompt = f'Does the phrase "{user_input}" relate to health care in any way?'
     conversation = [
         {"role": "system", "content": "You are ChatGPT, a large language model trained by OpenAI.  You are trained to look at a sentence and give a yes or no answer as to whether the sentence is healthcare related."},
@@ -48,18 +48,20 @@ def gen_request(user_input, expected_response):
     ]
     return call_chatgpt(conversation)
 
+def check_response(response, expected_response):
+    if expected_response is not None:
+        if expected_response == strtobool(response):
+            print(colorama.Fore.GREEN + '[SUCCESS]: Reply matched expected response!')
+            return True
+        else:
+            print(colorama.Fore.RED + '[FAILURE]: Reply did not match expected response!')
+            return False
+
 def output_response(response, expected_response):
     assistant_reply = response['choices'][0]['message']['content']
 
     print("ChatGPT: " + assistant_reply)
-
-    if expected_response is not None:
-        if expected_response == strtobool(assistant_reply):
-            print(colorama.Fore.GREEN + '[SUCCESS]: Reply matched expected response!')
-            return True
-        else:
-            print(colorama.Fore.RED + '[FAILURE]: Reply did not match expected response!' + colorama.Fore.WHITE)
-            return False
+    return check_response(assistant_reply, expected_response)
     
 
 if args.prompt:
@@ -67,10 +69,14 @@ if args.prompt:
     check_prompt(args.prompt, None)
 elif args.a:
     print('Checking all testcases')
+    failures = 0
+    total = len(TESTCASES)
     for testdata in TESTCASES:
-        check_prompt(*testdata)
+        if not check_prompt(*testdata):
+            failures += 1
+    print(f'Success Rate: {(total - failures) / total * 100}%')
+
 else:
     testdata = random.choice(TESTCASES)
     check_prompt(*testdata)
-
 
