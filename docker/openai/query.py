@@ -32,14 +32,14 @@ def call_chatgpt(conversation):
         model="gpt-3.5-turbo",
         messages=conversation,
         #prompt=user_prompt,
-        temperature=0.4,
+        temperature=0.2,
         max_tokens=100
     )
 
 def gen_request(user_input, expected_response):
     print(f'Checking prompt: {user_input}, expected response is {expected_response}')
 
-    user_prompt = f'Is this phrase related to health, disease, or public health? Please answer "Yes" or "No". If you are unsure, say "Unsure". The headline is: {user_input}'
+    user_prompt = f'Is this phrase related to health, disease, or public health in any way? Please answer "Yes" or "No". If you are unsure, say "Unsure". The headline is: {user_input}'
     #user_prompt = f'Does the phrase "{user_input}" relate to health care in any way?'
     conversation = [
         {"role": "system", "content": "You are ChatGPT, a large language model trained by OpenAI.  You are trained to look at a sentence and give a yes or no answer as to whether the sentence is healthcare related."},
