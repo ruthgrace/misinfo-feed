@@ -67,12 +67,18 @@ git pull origin main
 
 #### set up cron job to fetch RSS feeds
 
-Run as root
+1. build the docker container (redo this step every time the production code is updated)
+```
+cd /root/code/misinfo-feed/docker
+/root/code/misinfo-feed/docker/build.sh production
+```
+
+2. add the cron job. Run as root:
 ```
 crontab -e
 ```
 
 Make sure you have an entry to fetch the RSS feeds once a day (custom RSS feeds made with fetchrss.com dissapear if not accessed for a week)
 ```
-12 17 * * * cd /root/code/misinfo-feed/docker && /root/code/misinfo-feed/docker/build.sh && docker run --net=host --name misinfo-fetch-new-articles misinfo-fetch-new-articles:latest
+12 17 * * * docker rm /misinfo-fetch-new-articles && docker run --net=host --name misinfo-fetch-new-articles misinfo-fetch-new-articles:production
 ```
