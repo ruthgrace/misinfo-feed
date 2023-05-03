@@ -35,3 +35,44 @@ npx tailwindcss init -p
 - Edit [App.tsx](#src/App.tsx) and watch it live update!
 
 By default, Replit runs the `dev` script, but you can configure it by changing the `run` field in the [configuration file](#.replit). Here are the vite docs for [serving production websites](https://vitejs.dev/guide/build.html)
+
+#### build docker containers
+
+```
+cd misinfo-feed/docker
+./build.sh
+```
+
+### Set up production server
+
+#### update production code
+
+0. Add to ~/.ssh/config on your laptop
+```
+Host misinfo-backend
+  ForwardAgent yes
+  HostName <put server IP address here>
+```
+
+1. log in as root user forwarding credentials (for github access)
+```
+ssh -A -i ~/.ssh/id_rsa.pub root@misinfo-backend
+```
+
+2. pull new code from github
+```
+cd /root/code/misinfo-feed
+git pull origin main
+```
+
+#### set up cron job to fetch RSS feeds
+
+Run as root
+```
+crontab -e
+```
+
+Make sure you have an entry to fetch the RSS feeds once a day (custom RSS feeds made with fetchrss.com dissapear if not accessed for a week)
+```
+12 17 * * * cd /root/code/misinfo-feed/docker && /root/code/misinfo-feed/docker/build.sh && docker run --net=host --name misinfo-fetch-new-articles misinfo-fetch-new-articles:latest
+```
