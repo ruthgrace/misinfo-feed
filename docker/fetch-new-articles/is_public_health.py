@@ -31,24 +31,24 @@ master_feed_list = {
         URL: "https://thedispatch.com/category/fact-check/feed/",
     },
     "FactCheckAFP.com": {
-        WEBSITE: "factcheck.afp.com",
+        WEBSITE: "https://factcheck.afp.com/afp-usa",
         LOGO: "/afp_logo.png",
-        URL: "fetchrss.com",
+        URL: "http://fetchrss.com/rss/6451b3e510197943014c39736451b40bd45c8f4eed73c972.xml",
     },
     "APNews.com": {
         WEBSITE: "https://apnews.com/hub/ap-fact-check",
         LOGO: "/associated_press_logo.png",
-        URL: "fetchrss.com",
+        URL: "http://fetchrss.com/rss/6451b3e510197943014c39736451b470e7f21f781e72cd42.xml",
     },
     "USAToday.com": {
         WEBSITE: "https://www.usatoday.com/news/factcheck",
         LOGO: "/usa_today_logo.png",
-        URL: "fetchrss.com",
+        URL: "http://fetchrss.com/rss/6451b3e510197943014c39736451b603f5d79c16b21d5472.xml",
     },
     "Reuters.com": {
         WEBSITE: "https://www.reuters.com/news/archive/factCheckNew",
         LOGO: "/reuters_logo.png",
-        URL: "fetchrss.com",
+        URL: "http://fetchrss.com/rss/6451b3e510197943014c39736451b6323ea157342e43b3c2.xml",
     }
 }
 
