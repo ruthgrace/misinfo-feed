@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python", "./is_public_health.py" ]
+CMD [ "python", "./fetch_new_articles.py" ]
