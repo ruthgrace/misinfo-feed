@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+custom_tag=""
+
+if [ "$#" -ge 1 ]; then
+  echo "Building containers with custom tag: $1"
+  custom_tag=$1
+fi
+
 BUILD="$(pwd)/build"
 APP="app"
 BACKEND="backend"
@@ -25,4 +32,8 @@ cp -a ../fetch-new-articles/* "$FETCH_NEW"
 
 # docker build --no-cache -t misinfo-app app
 # docker build --no-cache -t misinfo-backend backend
-docker build -t misinfo-fetch-new-articles fetch-new-articles
+if [ -z "$custom_tag" ]; then
+  docker build -t misinfo-fetch-new-articles fetch-new-articles
+else
+  docker build -t misinfo-fetch-new-articles:$custom_tag fetch-new-articles
+fi
