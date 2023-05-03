@@ -52,18 +52,24 @@ master_feed_list = {
     }
 }
 
+def print_from_feed(url):
+    d = feedparser.parse(url)
+    print(d.keys())
+    print(type(d['entries']))
+    print("TITLE")
+    print(d['entries'][0]['title'])
+    print("LINKS")
+    print(d['entries'][0]['links'][0]['href'])
+    print("PUBLISHED PARSED")
+    print(time.asctime(d['entries'][0]['published_parsed']))
+    print("UPDATED PARSED")
+    print(time.asctime(d['entries'][0]['updated_parsed']))
+    print("SUMMARY")
+    print(d['entries'][0]['summary'])
 
-# TODO: 1. recreate rss feeds for missing links. 2. write code to fetch from all and just print out. 3. put it in a cron job (RSS feeds dissapear if not used for a week). 4. put data into database. 5. add logic to check if already in database (use URL). 6. add logic to replace what's in database if something is an updated version
-d = feedparser.parse("https://leadstories.com/atom.xml")
-print(d.keys())
-print(type(d['entries']))
-print("TITLE")
-print(d['entries'][0]['title'])
-print("LINKS")
-print(d['entries'][0]['links'][0]['href'])
-print("PUBLISHED PARSED")
-print(time.asctime(d['entries'][0]['published_parsed']))
-print("UPDATED PARSED")
-print(time.asctime(d['entries'][0]['updated_parsed']))
-print("SUMMARY")
-print(d['entries'][0]['summary'])
+for item in master_feed_list:
+    print(item)
+    print("DATA FROM " + master_feed_list[item][WEBSITE])
+    print_from_feed(master_feed_list[item][URL])
+
+# TODO:  3. put it in a cron job (RSS feeds dissapear if not used for a week). 4. put data into database. 5. add logic to check if already in database (use URL). 6. add logic to replace what's in database if something is an updated version
