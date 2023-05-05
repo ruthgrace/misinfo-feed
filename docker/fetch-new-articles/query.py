@@ -10,15 +10,17 @@ import logging
 import sys
 
 colorama.init(autoreset=True)
+DEFAULT_LOGLEVEL = logging.ERROR
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', dest='prompt', type=str, required=False)
 parser.add_argument('-a', dest='a', action='store_true', required=False)
-parser.add_argument('-v', dest='verbose', action='store_true', default=False)
+parser.add_argument('-v', dest='verbose', help='log verbosity, default ERROR, -v = INFO, -vv = DEBUG', action='count', default=0)
 args = parser.parse_args()
 
 if args.verbose:
-    set_level(logging.DEBUG)
+    print(40 - (args.verbose * 10))
+    set_level(40 - (args.verbose * 10))
 
 
 # Set up your OpenAI API key
