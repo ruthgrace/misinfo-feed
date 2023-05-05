@@ -1,2 +1,6 @@
 openai
 colorama
+rss-parser
+requests
+supabase
+python-dotenv
