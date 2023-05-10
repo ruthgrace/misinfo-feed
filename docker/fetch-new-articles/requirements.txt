@@ -1,2 +1,6 @@
 openai==0.27.2
 feedparser==6.0.10
+colorama
+requests
+supabase
+python-dotenv
