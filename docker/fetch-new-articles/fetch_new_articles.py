@@ -67,9 +67,13 @@ def print_from_feed(url):
     print("SUMMARY")
     print(d['entries'][0]['summary'])
 
-for item in master_feed_list:
-    print(item)
-    print("DATA FROM " + master_feed_list[item][WEBSITE])
-    print_from_feed(master_feed_list[item][URL])
+def main():
+    for item in master_feed_list:
+        print(item)
+        print("DATA FROM " + master_feed_list[item][WEBSITE])
+        print_from_feed(master_feed_list[item][URL])
+
+if __name__ == "__main__":
+    main()
 
 # TODO:  3. put it in a cron job (RSS feeds dissapear if not used for a week). 4. put data into database. 5. add logic to check if already in database (use URL). 6. add logic to replace what's in database if something is an updated version
