@@ -24,6 +24,13 @@ docker build -t node-misinfo .
 cp -a ../../public "$BUILD/$APP/public"
 cp -a ../../src "$BUILD/$APP/src"
 cp -a ../../package.json "$BUILD/$APP"
+cp -a ../../index.html "$BUILD/$APP"
+cp -a ../../postcss.config.cjs "$BUILD/$APP"
+cp -a ../../tailwind.config.cjs "$BUILD/$APP"
+cp -a ../../tsconfig.json "$BUILD/$APP"
+cp -a ../../tsconfig.node.json "$BUILD/$APP"
+cp -a ../../vite.config.js "$BUILD/$APP"
+
 cp -a ../../backend/app.ts "$BUILD/$BACKEND"
 cp -a ../../package.json "$BUILD/$BACKEND"
 cp -a ../../tsconfig.json "$BUILD/$BACKEND"
