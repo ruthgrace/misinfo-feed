@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css'
 import { read, FeedEntry } from 'feed-reader'
 import { fetch } from 'fetch-opengraph';
-import { rssConfigs } from './const.ts';
+import { rssConfigs } from './const';
 
 interface FeedItem {
   timestamp?: Date;
