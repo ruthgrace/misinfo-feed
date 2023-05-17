@@ -55,7 +55,7 @@ export default function App() {
   ]
   console.log('allPosts', allPosts)
 
-  allPosts = allPosts.sort((n1, n2) => n2.timestamp.getTime() - n1.timestamp.getTime());
+  allPosts = allPosts.sort((n1, n2) => (n2.timestamp?.getTime() ?? 0) - (n1.timestamp?.getTime() ?? 0));
 
   // include only COVID content
   /* allPosts = allPosts.filter((post) => {
