@@ -21,3 +21,4 @@ COPY tsconfig.node.json /opt/app
 COPY vite.config.js /opt/app
 WORKDIR /opt/app
 RUN npm install
+RUN npm run build
