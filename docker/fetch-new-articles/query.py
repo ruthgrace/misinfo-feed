@@ -19,7 +19,6 @@ parser.add_argument('-v', dest='verbose', help='log verbosity, default ERROR, -v
 args = parser.parse_args()
 
 if args.verbose:
-    print(40 - (args.verbose * 10))
     set_level(40 - (args.verbose * 10))
 
 
@@ -56,14 +55,14 @@ def gen_request(user_input, expected_response):
     #user_prompt = f'Does the phrase "{user_input}" relate to health care in any way?'
     conversation = [
         {"role": "system", "content": "You are ChatGPT, a large language model trained by OpenAI.  You are trained to look at a sentence and give a yes or no answer as to whether the sentence is healthcare related."},
-        {"role": "assistant", "content": "I'm doing well, thank you! How can I help you?"},
+        #{"role": "assistant", "content": "I'm doing well, thank you! How can I help you?"},
         {"role": "user", "content": user_prompt},
     ]
     return call_chatgpt(conversation)
 
 def check_response(response, expected_response):
+    response_bool = strtobool(response)
     if expected_response is not None:
-        response_bool = strtobool(response)
         if response_bool is None:
             logger.info(colorama.Fore.YELLOW + '[UNSURE]: AI did not return a definitive answer')
             return
@@ -73,6 +72,9 @@ def check_response(response, expected_response):
         else:
             logger.info(colorama.Fore.RED + '[FAILURE]: Reply did not match expected response!')
             return False
+    else:
+        if response_bool is not None:
+            return response_bool
 
 def output_response(response, expected_response):
     assistant_reply = response['choices'][0]['message']['content']
