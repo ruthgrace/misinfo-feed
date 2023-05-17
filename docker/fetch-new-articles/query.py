@@ -1,6 +1,7 @@
 import os
 import openai
 import argparse
+import time
 from testcases import TESTCASES
 import random
 import colorama
@@ -40,22 +41,25 @@ def check_prompt(prompt, expected_response):
 
 def call_chatgpt(conversation):
     # Call the OpenAI API to generate a response
-    return openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=conversation,
-        #prompt=user_prompt,
-        temperature=0.2,
-        max_tokens=100
-    )
+    try:
+        return openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=conversation,
+            #prompt=user_prompt,
+            temperature=0.2,
+            max_tokens=100
+        )
+    except openai.error.RateLimitError:
+        logger.warning('Ratelimited')
+        time.sleep(3)
+        return call_chatgpt(conversation)
 
 def gen_request(user_input, expected_response):
     logger.info(f'Checking prompt: {user_input}, expected response is {expected_response}')
 
     user_prompt = f'Is a news headline "{user_input}" related to health, health care, disease, or public health in any way? Please answer "Yes" or "No". If you are unsure, say "Unsure".'
-    #user_prompt = f'Does the phrase "{user_input}" relate to health care in any way?'
     conversation = [
-        {"role": "system", "content": "You are ChatGPT, a large language model trained by OpenAI.  You are trained to look at a sentence and give a yes or no answer as to whether the sentence is healthcare related."},
-        #{"role": "assistant", "content": "I'm doing well, thank you! How can I help you?"},
+        #{"role": "system", "content": "You are ChatGPT, a large language model trained by OpenAI.  You are trained to look at a sentence and give a yes or no answer as to whether the sentence is healthcare related."},
         {"role": "user", "content": user_prompt},
     ]
     return call_chatgpt(conversation)
