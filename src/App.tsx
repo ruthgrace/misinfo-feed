@@ -27,7 +27,7 @@ function useGetFeed(key: string) {
   }, [])
   const feedItems: FeedItem[] = posts?.map(p => {
     return {
-      timestamp: new Date(p.published),
+      timestamp: new Date(p.published ?? ""),
       link: p.link,
       title: p.title,
       description: p.description,
@@ -73,14 +73,14 @@ export default function App() {
     setSearchInput(search_query)
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
     setSearchInput(e.target.value);
   };
 
   if (searchInput.length > 0) {
     allPosts = allPosts.filter((post) => {
-      return post.title.includes(searchInput) || post.description.includes(searchInput);
+      return post.title?.includes(searchInput) || post.description?.includes(searchInput);
     });
   }
 
@@ -96,12 +96,12 @@ export default function App() {
       {search_present ?
         <div>
           <p>Link to search - <a href={search_link}>{search_link}</a></p>
-          <button class="btn btn-blue">Subscribe to this search</button>
+          <button className="btn btn-blue">Subscribe to this search</button>
         </div>
         :
         <div>
-          <br/>
-          <br/>
+          <br />
+          <br />
         </div>}
       <p></p><Feeds posts={allPosts ?? []} />
     </main>
@@ -109,9 +109,11 @@ export default function App() {
 }
 
 export function Feeds({ posts }: { posts: FeedItem[] }) {
-  return posts.map(entry => {
-    return <FeedRow entry={entry} />
-  })
+  return <React.Fragment>
+    {posts.map(entry => {
+      return <FeedRow entry={entry} />
+    })}
+  </React.Fragment>
 }
 
 
@@ -125,7 +127,7 @@ export function FeedRow({
       </div>
       <div className="col-span-3">
         <div className="text-xl"><a href={entry.link}>{entry.title}</a></div>
-        <small>{entry.timestamp.toString()}</small>
+        <small>{entry.timestamp?.toString() ?? ""}</small>
         <p>{entry.description}</p>
       </div>
     </div>
