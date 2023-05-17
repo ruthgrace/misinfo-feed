@@ -19,4 +19,5 @@ COPY tailwind.config.cjs /opt/app
 COPY tsconfig.json /opt/app
 COPY tsconfig.node.json /opt/app
 COPY vite.config.js /opt/app
+WORKDIR /opt/app
 RUN npm install
