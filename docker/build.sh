@@ -21,8 +21,16 @@ cp ../docker-node/19/bullseye/* .
 
 docker build -t node-misinfo .
 
-cp -a ../../public "$BUILD/$APP"
-cp -a ../../src "$BUILD/$APP"
+cp -a ../../public "$BUILD/$APP/public"
+cp -a ../../src "$BUILD/$APP/src"
+cp -a ../../package.json "$BUILD/$APP"
+cp -a ../../index.html "$BUILD/$APP"
+cp -a ../../postcss.config.cjs "$BUILD/$APP"
+cp -a ../../tailwind.config.cjs "$BUILD/$APP"
+cp -a ../../tsconfig.json "$BUILD/$APP"
+cp -a ../../tsconfig.node.json "$BUILD/$APP"
+cp -a ../../vite.config.js "$BUILD/$APP"
+
 cp -a ../../backend/app.ts "$BUILD/$BACKEND"
 cp -a ../../package.json "$BUILD/$BACKEND"
 cp -a ../../tsconfig.json "$BUILD/$BACKEND"
@@ -30,7 +38,7 @@ cp -a ../app/Dockerfile app
 cp -a ../backend/Dockerfile backend
 cp -a ../fetch-new-articles/* "$FETCH_NEW"
 
-# docker build --no-cache -t misinfo-app app
+docker build --no-cache -t misinfo-app app
 # docker build --no-cache -t misinfo-backend backend
 if [ -z "$custom_tag" ]; then
   docker build -t misinfo-fetch-new-articles fetch-new-articles
