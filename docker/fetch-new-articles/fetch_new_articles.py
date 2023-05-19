@@ -7,7 +7,7 @@ URL = "url"
 master_feed_list = {
     "FactCheck.org": {
         WEBSITE: "factcheck.org",
-        LOGO: "factcheckorg_logo.png",
+        LOGO: "/factcheckorg_logo.png",
         URL: "https://www.factcheck.org/feed/",
     },
     "LeadStories.com": {
