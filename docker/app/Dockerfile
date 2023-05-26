@@ -1,6 +1,7 @@
 FROM node-misinfo
 
 ENV DEBCONF_FRONTEND=noninteractive
+ENV PRODUCTION=false
 
 RUN apt-get -y update && \
   apt-get -y install curl \
@@ -22,3 +23,12 @@ COPY vite.config.js /opt/app
 WORKDIR /opt/app
 RUN npm install
 RUN npm run build
+RUN cp -r /opt/app/dist /tmp/dist
+RUN rm -r /opt/app/*
+RUN mv /tmp/dist/* /opt/app/
+RUN apt-get -y install nginx
+COPY misinfo_trends_prod_nginx.conf /etc/nginx/sites-available/
+COPY misinfo_trends_dev_nginx.conf /etc/nginx/sites-available/
+COPY run_frontend.sh /opt/app
+RUN rm /etc/nginx/sites-enabled/default
+CMD ["/opt/app/run_frontend.sh"]

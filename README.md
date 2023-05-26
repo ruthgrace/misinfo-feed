@@ -36,6 +36,29 @@ npx tailwindcss init -p
 
 By default, Replit runs the `dev` script, but you can configure it by changing the `run` field in the [configuration file](#.replit). Here are the vite docs for [serving production websites](https://vitejs.dev/guide/build.html)
 
+#### set up front end on server
+
+build docker container
+```
+cd misinfo-feed/docker
+./build.sh
+```
+
+run development server on port 8080
+```
+docker stop misinfo-app-dev
+docker rm misinfo-app-dev
+docker run --net=host --name misinfo-app-dev misinfo-app:latest
+```
+
+run production server on port 80
+```
+docker stop misinfo-app-prod
+docker rm misinfo-app-prod
+docker run -e PRODUCTION=true --name misinfo-app-prod misinfo-app:
+latest
+```
+
 #### build docker containers
 
 ```
