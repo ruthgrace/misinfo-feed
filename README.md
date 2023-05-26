@@ -46,12 +46,14 @@ cd misinfo-feed/docker
 
 run development server on port 8080
 ```
+docker stop misinfo-app-dev
 docker rm misinfo-app-dev
 docker run --net=host --name misinfo-app-dev misinfo-app:latest
 ```
 
 run production server on port 80
 ```
+docker stop misinfo-app-prod
 docker rm misinfo-app-prod
 docker run -e PRODUCTION=true --name misinfo-app-prod misinfo-app:
 latest
