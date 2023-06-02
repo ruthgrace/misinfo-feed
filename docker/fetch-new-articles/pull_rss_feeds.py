@@ -19,8 +19,8 @@ def get_master_feed_list(supabase: Client) -> list:
 
 
 def item_exists_in_db(supabase: Client, uri: str) -> bool:
-    rows = supabase.table('feeditem').select('*').eq('uri', uri)
-    if rows:
+    rows = supabase.table('feeditem').select('*', count='exact').eq('uri', uri).execute()
+    if rows.count:
         return True
     return False
 
@@ -52,6 +52,12 @@ def init_feed_table():
         feeds.append(v)
     add_entries_to_feed_table(supabase, feeds)
 
+def update_feed_updated_at(feed_id: int, update_time: time.struct_time):
+    # update feed entry with latest updated time
+    logger.info(f'Setting update time for feed {feed_id} to {update_time}')
+    
+    
+
 def main():
     load_dotenv()
     url: str = os.environ.get('SUPABASE_URL')
@@ -62,7 +68,14 @@ def main():
     
     for entry in master_feed_list:
         logger.info(f'Checking url: {entry["rss_uri"]}')
-        feed = rssFeed(feedparser.parse(entry["rss_uri"]))
+        feed = feedparser.parse(entry["rss_uri"])
+        #breakpoint()
+        try:
+            updated = feed.updated_parsed
+        except AttributeError:
+            updated = feed.feed.published_parsed
+
+        update_feed_updated_at(entry.get('id'), feed.updated_parsed)
         logger.info(f'found {len(feed.entries)} items')
         health_related_articles = []
         for item in feed.entries:
@@ -74,7 +87,7 @@ def main():
                 if check_prompt(item.title, None):
                     logger.info(f'found healthcare related article: title: {item.title}, description: {item.description}')
                     health_related_articles.append(item)
-        print(f'found {len(health_related_articles)} articles related to healthcare on {entry["website"]}')
+        logger.info(f'found {len(health_related_articles)} articles related to healthcare on {entry["website"]}')
         add_entries_to_feeditem_table(supabase, entry.get('id'), health_related_articles)
         
 

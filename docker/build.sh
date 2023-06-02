@@ -37,6 +37,7 @@ cp -a ../../tsconfig.json "$BUILD/$BACKEND"
 cp -a ../app/Dockerfile app
 cp -a ../backend/Dockerfile backend
 cp -a ../fetch-new-articles/* "$FETCH_NEW"
+cp -a ../fetch-new-articles/.env "$FETCH_NEW"
 
 docker build --no-cache -t misinfo-app app
 # docker build --no-cache -t misinfo-backend backend
