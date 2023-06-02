@@ -55,8 +55,7 @@ run production server on port 80
 ```
 docker stop misinfo-app-prod
 docker rm misinfo-app-prod
-docker run -e PRODUCTION=true --name misinfo-app-prod misinfo-app:
-latest
+docker run -e PRODUCTION=true --name misinfo-app-prod misinfo-app:latest
 ```
 
 #### build docker containers
@@ -77,26 +76,60 @@ Host misinfo-backend
   HostName <put server IP address here>
 ```
 
-1. log in as root user forwarding credentials (for github access)
+Make sure your credentials are in the server at `/home/prod/.ssh/authorized_keys`
+
+1. log in as prod user forwarding credentials (for github access)
 ```
-ssh -A -i ~/.ssh/id_rsa.pub root@misinfo-backend
+ssh -A -i ~/.ssh/id_rsa.pub prod@misinfo-backend
 ```
 
 2. pull new code from github
 ```
-cd /root/code/misinfo-feed
+cd /home/prod/misinfo-feed
 git pull origin main
+```
+
+#### update front end
+
+1. build the docker container (redo this step every time the production code is updated)
+```
+cd /home/prod/misinfo-feed/docker
+/home/prod/misinfo-feed/docker/build.sh production
+```
+
+2. put service file in place if you haven't already (do this as root user)
+```
+ln -s /home/prod/misinfo-feed/misinfo_trends.service /etc/systemd/system/misinfo_trends.service
+```
+If you've updated the `misinfo_trends.service` file, reload configs
+```
+systemctl daemon-reload
+```
+
+3. start service (do this as root user)
+```
+systemctl start misinfo_trends
+```
+
+4. sanity check to make sure it's listening on port 80
+```
+netstat -tnlp | grep LISTEN
+```
+you should see entries like
+```
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      196555/nginx: maste 
+tcp6       0      0 :::80                   :::*                    LISTEN      196555/nginx: maste 
 ```
 
 #### set up cron job to fetch RSS feeds
 
 1. build the docker container (redo this step every time the production code is updated)
 ```
-cd /root/code/misinfo-feed/docker
-/root/code/misinfo-feed/docker/build.sh production
+cd /home/prod/misinfo-feed/docker
+/home/prod/misinfo-feed/docker/build.sh production
 ```
 
-2. add the cron job. Run as root:
+2. add the cron job. Run as prod user:
 ```
 crontab -e
 ```

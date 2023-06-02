@@ -1,0 +1,8 @@
+[Unit]
+Description=front end of misinfotrends.com
+
+[Service]
+ExecStart=/root/code/misinfo-feed/misinfo_trends_start.sh
+Restart=always
+User=prod
+Group=prod
