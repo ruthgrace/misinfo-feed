@@ -108,6 +108,7 @@ systemctl daemon-reload
 
 3. start service (do this as root user)
 ```
+systemctl stop misinfo_trends
 systemctl start misinfo_trends
 ```
 
