@@ -4,5 +4,6 @@ Description=front end of misinfotrends.com
 [Service]
 ExecStart=/home/prod/misinfo-feed/misinfo_trends_start.sh
 Restart=always
+RestartSec=3
 User=prod
 Group=prod

@@ -55,7 +55,7 @@ run production server on port 80
 ```
 docker stop misinfo-app-prod
 docker rm misinfo-app-prod
-docker run -e PRODUCTION=true --name misinfo-app-prod misinfo-app:latest
+docker run --net=host -e PRODUCTION=true --name misinfo-app-prod misinfo-app:latest
 ```
 
 #### build docker containers
@@ -111,7 +111,11 @@ systemctl daemon-reload
 systemctl start misinfo_trends
 ```
 
-4. sanity check to make sure it's listening on port 80
+4. sanity check to make sure its running
+```
+systemctl status misinfo_trends
+```
+sanity check to make sure it's listening on port 80
 ```
 netstat -tnlp | grep LISTEN
 ```
