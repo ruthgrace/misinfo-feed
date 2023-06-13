@@ -4,100 +4,67 @@ import { read, FeedEntry } from 'feed-reader'
 import { fetch } from 'fetch-opengraph';
 import { rssConfigs } from './const';
 import { createClient } from '@supabase/supabase-js'
+import { Database } from './lib/database.types';
 
 let SUPABASE_ANON_KEY: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhqb2JxbHVldnF0dmpod2ZobGhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzg4NDA3NjEsImV4cCI6MTk5NDQxNjc2MX0.7HCav4pUOTSEVaqDKv7vCRxApIhqecs_OfYB8_GDqto"
-let SUPABASE_URL: string = "https://db.xjobqluevqtvjhwfhlhr.supabase.co/"
-
-interface Database {
-  public: {
-    Tables: {
-      feeditem: {
-        Row: {} // The data expected to be returned from a "select" statement.
-        Insert: {} // The data expected passed to an "insert" statement.
-        Update: {} // The data expected passed to an "update" statement.
-      }
-    }
-  }
-}
+let SUPABASE_URL: string = "https://xjobqluevqtvjhwfhlhr.supabase.co/"
 
 const supabase = createClient<Database>(
   SUPABASE_URL,
   SUPABASE_ANON_KEY
 );
 
-type FeedItemResponse = Awaited<ReturnType<typeof getFeedItems>>;
-export type FeedItemResponseSuccess = FeedItemResponse['data'];
-export type FeedItemResponseError = FeedItemResponse['error'];
+export interface Feed {
+  timestamp?: string|null;
+  logo?: string;
+  website?: string;
+}
 
-interface FeedItem {
-  timestamp?: Date;
-  link?: string;
-  title?: string;
-  description?: string;
-  website: string;
-  logo: string;
+export interface FeedItem {
+  timestamp?: string|null;
+  uri?: string;
+  title?: string|null;
+  description?: string|null;
+  feed: Feed;
 }
 
 const site_url = "https://misinfo-feed.ruth-gracegrace.repl.co/"
 
-function useGetFeed(key: string) {
-  const { url, website, logo } = rssConfigs[key]
-  const [posts, setPosts] = useState<FeedEntry[]>()
-
-  React.useEffect(() => {
-    read(url).then(res => {
-      console.log('result: url', res, url);
-      setPosts(res.entries)
-    }).catch(e => console.error(e))
-  }, [])
-  const feedItems: FeedItem[] = posts?.map(p => {
-    return {
-      timestamp: new Date(p.published ?? ""),
-      link: p.link,
-      title: p.title,
-      description: p.description,
-      website,
-      logo,
-    }
-  }) ?? [];
-
-  return feedItems;
-}
-
-async function getFeedItems() {
-  let now: Date  = new Date();
-  let then: Date = new Date();
-  then.setDate(now.getDate() - 1);
-  return await supabase.from('feeditem').select(`timestamp, uri, title, description, feed (id)`).eq('public_health_related', 1).gte('timestamp',now.toISOString()).lte('timestamp',then.toISOString());
-}
-
-export default function App() {
-  getFeedItems().then(data => console.log('FeedItems', data));
-
-  let allPosts: FeedItem[] = [ ];
-    //...useGetFeed('fco'),
-    //...useGetFeed('ls'),
-    //...useGetFeed('pf'),
-    //...useGetFeed('sf'),
-    //...useGetFeed('dp'),
-    //...useGetFeed('afp'),
-    //...useGetFeed('apn'),
-    //...useGetFeed('ust'),
-    //...useGetFeed('rfc'),
-  //]
-  //console.log('allPosts', allPosts)
-
-  allPosts = allPosts.sort((n1, n2) => (n2.timestamp?.getTime() ?? 0) - (n1.timestamp?.getTime() ?? 0));
-
-  // include only COVID content
-  /* allPosts = allPosts.filter((post) => {
-    return post.title.includes("COVID") || post.description.includes("COVID");
-  }); */
-
-  const searchBar = () => { }
+const App = () => {
+  const [feedItems, setFeedItems] = useState<FeedItem[]>([])
   const [searchInput, setSearchInput] = useState("");
+  const searchBar = () => { }
   const search_present = searchInput.length > 0;
   const search_link = site_url + "?search=" + searchInput
+
+  const getFeedItems = async () => {
+    let now: Date  = new Date();
+    let then: Date = new Date();
+    then.setDate(now.getDate() - 1);
+
+    let { data: feeditems, error } = await supabase
+      .from('feeditem')
+      .select(`timestamp, uri, title, description, feed (id, logo, website)`)
+      .eq('public_health_related', 1)
+      //.gte('timestamp',now.toISOString())
+      //.lte('timestamp',then.toISOString())
+      //.order('timestamp');
+
+    if (error) console.log("error", error);
+    else {
+      console.log(feeditems);
+      setFeedItems(feeditems as FeedItem[]);
+    }
+  }
+
+  const findFeedItems = async () => {
+    setFeedItems(feedItems.filter((post: FeedItem) => {
+      return post.title?.includes(searchInput) || post.description?.includes(searchInput);
+    }));
+  }
+
+  getFeedItems().catch(console.error);
+
   useEffect(() => {
     let search = window.location.search;
     let params = new URLSearchParams(search);
@@ -111,9 +78,7 @@ export default function App() {
   };
 
   if (searchInput.length > 0) {
-    allPosts = allPosts.filter((post) => {
-      return post.title?.includes(searchInput) || post.description?.includes(searchInput);
-    });
+    findFeedItems().catch(console.error);
   }
 
   return (
@@ -135,7 +100,7 @@ export default function App() {
           <br />
           <br />
         </div>}
-      <p></p><Feeds posts={allPosts ?? []} />
+      <p></p><Feeds posts={feedItems ?? []} />
     </main>
   )
 }
@@ -155,16 +120,18 @@ export function FeedRow({
   return (
     <div className="feedrow grid grid-cols-4 gap-4">
       <div className="logocol">
-        <img src={entry.logo} />
+        <img src={entry.feed.logo} />
       </div>
       <div className="col-span-3">
-        <div className="text-xl"><a href={entry.link}>{entry.title}</a></div>
+        <div className="text-xl"><a href={entry.uri}>{entry.title}</a></div>
         <small>{entry.timestamp?.toString() ?? ""}</small>
         <p>{entry.description}</p>
       </div>
     </div>
   )
 }
+
+export default App;
 
 // https://tailwindcss.com/docs/font-size
 // https://www.npmjs.com/package/fetch-opengraph
