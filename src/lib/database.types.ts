@@ -37,14 +37,16 @@ export interface Database {
           updated_at?: string
           website?: string | null
         }
+        Relationships: []
       }
       feeditem: {
         Row: {
           created_at: string | null
           description: string | null
-          feed_id: number | null
+          feed_id: number
           id: number
           public_health_related: number | null
+          thumbnail: string | null
           timestamp: string | null
           title: string | null
           title_html: string | null
@@ -53,9 +55,10 @@ export interface Database {
         Insert: {
           created_at?: string | null
           description?: string | null
-          feed_id?: number | null
+          feed_id: number
           id?: number
           public_health_related?: number | null
+          thumbnail?: string | null
           timestamp?: string | null
           title?: string | null
           title_html?: string | null
@@ -64,14 +67,23 @@ export interface Database {
         Update: {
           created_at?: string | null
           description?: string | null
-          feed_id?: number | null
+          feed_id?: number
           id?: number
           public_health_related?: number | null
+          thumbnail?: string | null
           timestamp?: string | null
           title?: string | null
           title_html?: string | null
           uri?: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "feeditem_feed_id_fkey"
+            columns: ["feed_id"]
+            referencedRelation: "feed"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       site_constant: {
         Row: {
@@ -92,6 +104,7 @@ export interface Database {
           name?: string | null
           value?: string | null
         }
+        Relationships: []
       }
     }
     Views: {

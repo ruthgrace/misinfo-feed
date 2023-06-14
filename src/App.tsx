@@ -25,6 +25,7 @@ export interface FeedItem {
   uri?: string;
   title?: string|null;
   description?: string|null;
+  thumbnail?: string|null;
   feed: Feed;
 }
 
@@ -32,54 +33,70 @@ const site_url = "https://misinfo-feed.ruth-gracegrace.repl.co/"
 
 const App = () => {
   const [feedItems, setFeedItems] = useState<FeedItem[]>([])
+  const [visibleFeedItems, setVisibleFeedItems] = useState<FeedItem[]>([])
   const [searchInput, setSearchInput] = useState("");
   const searchBar = () => { }
   const search_present = searchInput.length > 0;
   const search_link = site_url + "?search=" + searchInput
 
   const getFeedItems = async () => {
+    console.log('fetching feeditems');
     let now: Date  = new Date();
     let then: Date = new Date();
     then.setDate(now.getDate() - 1);
 
     let { data: feeditems, error } = await supabase
       .from('feeditem')
-      .select(`timestamp, uri, title, description, feed (id, logo, website)`)
+      .select(`timestamp, uri, title, description, thumbnail, feed (id, logo, website)`)
       .eq('public_health_related', 1)
       //.gte('timestamp',now.toISOString())
       //.lte('timestamp',then.toISOString())
-      //.order('timestamp');
+      .order('timestamp', { ascending: false});
 
     if (error) console.log("error", error);
     else {
       console.log(feeditems);
       setFeedItems(feeditems as FeedItem[]);
+      setVisibleFeedItems(feeditems as FeedItem[]);
     }
   }
 
   const findFeedItems = async () => {
-    setFeedItems(feedItems.filter((post: FeedItem) => {
-      return post.title?.includes(searchInput) || post.description?.includes(searchInput);
-    }));
+    if (searchInput.length > 0) {
+      console.log(searchInput);
+      setVisibleFeedItems(feedItems.filter((post: FeedItem) => {
+        let sil = searchInput.toLowerCase();
+        return (
+          post.title?.toLowerCase().includes(sil) ||
+          post.description?.toLowerCase().includes(sil) ||
+          post.feed.website?.toLowerCase().includes(sil)
+        );
+      }));
+    } else {
+      setVisibleFeedItems(feedItems);
+    }
   }
 
-  getFeedItems().catch(console.error);
 
   useEffect(() => {
+    getFeedItems().catch(console.error);
     let search = window.location.search;
     let params = new URLSearchParams(search);
     let search_query = params.get('search') || ''; // contents of query param "search" i.e. https://foo.bar?search=foo
     setSearchInput(search_query)
-  }, []);
+  }, []); // only runs once on page load
+
+  useEffect(() => {
+    console.log('state changed', searchInput)
+    findFeedItems()
+  }, [searchInput]);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    console.log('enter handleChange');
     e.preventDefault();
     setSearchInput(e.target.value);
   };
 
-  if (searchInput.length > 0) {
-    findFeedItems().catch(console.error);
-  }
 
   return (
     <main className="p-5">
@@ -89,7 +106,7 @@ const App = () => {
         type="search"
         placeholder="Search here"
         onChange={handleChange}
-        value={searchInput} />
+        value={searchInput || ""} />
       {search_present ?
         <div>
           <p>Link to search - <a href={search_link}>{search_link}</a></p>
@@ -100,7 +117,7 @@ const App = () => {
           <br />
           <br />
         </div>}
-      <p></p><Feeds posts={feedItems ?? []} />
+      <p></p><Feeds posts={visibleFeedItems ?? []} />
     </main>
   )
 }
