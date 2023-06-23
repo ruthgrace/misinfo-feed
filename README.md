@@ -143,3 +143,17 @@ Make sure you have an entry to fetch the RSS feeds once a day (custom RSS feeds 
 ```
 12 17 * * * docker rm /misinfo-fetch-new-articles && docker run --net=host --name misinfo-fetch-new-articles misinfo-fetch-new-articles:production
 ```
+
+#### Test ChatGPT reponses with known article titles
+
+```
+cd /home/prod/misinfo-feed/docker/fetch-new-articles
+python3 query.py -a [-vvv]
+```
+
+#### Pull latest RSS feeds 
+```
+cd /home/prod/misinfo-feed/docker/fetch-new-articles
+python3 pull_rss_feeds.py [-vvv] [--force-update]
+```
+
