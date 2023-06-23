@@ -128,6 +128,11 @@ tcp6       0      0 :::80                   :::*                    LISTEN      
 
 #### set up cron job to fetch RSS feeds
 
+0. Prune docker system files so we don't run out of disk space
+```
+docker system prune -a
+```
+
 1. build the docker container (redo this step every time the production code is updated)
 ```
 cd /home/prod/misinfo-feed/docker
