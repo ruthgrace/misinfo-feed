@@ -30,27 +30,31 @@ master_feed_list = {
         LOGO: "/dispatch_logo.png",
         URL: "https://thedispatch.com/category/fact-check/feed/",
     },
-    "FactCheckAFP.com": {
+     "FactCheckAFP.com": {
         WEBSITE: "https://factcheck.afp.com/afp-usa",
         LOGO: "/afp_logo.png",
-        URL: "http://fetchrss.com/rss/6451b3e510197943014c39736451b40bd45c8f4eed73c972.xml",
+        URL: "http://fetchrss.com/rss/6495daa78a3f750732039d826495daf7f0abdf3cfa797bc2.xml",
     },
+"""
+**** fetchrss.com is not able to load this one to generate the feed. commenting out for now.
     "APNews.com": {
         WEBSITE: "https://apnews.com/hub/ap-fact-check",
         LOGO: "/associated_press_logo.png",
         URL: "http://fetchrss.com/rss/6451b3e510197943014c39736451b470e7f21f781e72cd42.xml",
     },
+**** fetchrss.com is not able to select each individual news item to generate the feed. commenting out for now.
     "USAToday.com": {
         WEBSITE: "https://www.usatoday.com/news/factcheck",
         LOGO: "/usa_today_logo.png",
         URL: "http://fetchrss.com/rss/6451b3e510197943014c39736451b603f5d79c16b21d5472.xml",
-    },
+    }, """
     "Reuters.com": {
         WEBSITE: "https://www.reuters.com/news/archive/factCheckNew",
         LOGO: "/reuters_logo.png",
-        URL: "http://fetchrss.com/rss/6451b3e510197943014c39736451b6323ea157342e43b3c2.xml",
+        URL: "http://fetchrss.com/rss/6495daa78a3f750732039d826495dd09096ac74c0308f253.xml",
     }
 }
+
 
 def print_from_feed(url):
     d = feedparser.parse(url)
