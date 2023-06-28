@@ -46,10 +46,9 @@ export interface Database {
           feed_id: number
           id: number
           public_health_related: number | null
-          thumbnail: string | null
+          thumbnail_url: string | null
           timestamp: string | null
           title: string | null
-          title_html: string | null
           uri: string | null
         }
         Insert: {
@@ -58,10 +57,9 @@ export interface Database {
           feed_id: number
           id?: number
           public_health_related?: number | null
-          thumbnail?: string | null
+          thumbnail_url?: string | null
           timestamp?: string | null
           title?: string | null
-          title_html?: string | null
           uri?: string | null
         }
         Update: {
@@ -70,10 +68,9 @@ export interface Database {
           feed_id?: number
           id?: number
           public_health_related?: number | null
-          thumbnail?: string | null
+          thumbnail_url?: string | null
           timestamp?: string | null
           title?: string | null
-          title_html?: string | null
           uri?: string | null
         }
         Relationships: [
