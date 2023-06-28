@@ -133,13 +133,21 @@ tcp6       0      0 :::80                   :::*                    LISTEN      
 docker system prune -a
 ```
 
-1. build the docker container (redo this step every time the production code is updated)
+1. make sure you have the `misinfo-feed/docker/fetch-new-articles/.env` file. The file should look like this -- you can get the values from Adam or Ruth.
+```
+SUPABASE_URL='<supabase url>'
+SUPABASE_API_KEY='<supabase url key>'
+SUPABASE_DB_PASSWORD='<supabase db pass>'
+OPENAI_API_KEY='<openai api key>'
+``` 
+
+2. build the docker container (redo this step every time the production code is updated)
 ```
 cd /home/prod/misinfo-feed/docker
 /home/prod/misinfo-feed/docker/build.sh production
 ```
 
-2. add the cron job. Run as prod user:
+3. add the cron job. Run as prod user:
 ```
 crontab -e
 ```
