@@ -1,0 +1,7 @@
+[Unit]
+Description=script that checks for new articles to add to misinfo feed. This is run with a corresponding systemd timer.
+
+[Service]
+ExecStart=/home/prod/misinfo-feed/fetch_new_articles_start.sh
+User=prod
+Group=prod

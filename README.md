@@ -126,7 +126,7 @@ tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      
 tcp6       0      0 :::80                   :::*                    LISTEN      196555/nginx: maste 
 ```
 
-#### set up cron job to fetch RSS feeds
+#### set up systemd timer to fetch RSS feeds
 
 0. Prune docker system files so we don't run out of disk space
 ```
@@ -147,14 +147,26 @@ cd /home/prod/misinfo-feed/docker
 /home/prod/misinfo-feed/docker/build.sh production
 ```
 
-3. add the cron job. Run as prod user:
+3. add the .service and .timer file to systemd. Run as root user:
 ```
-crontab -e
+ln -s /home/prod/misinfo-feed/fetch_new_articles.service /etc/systemd/system/fetch_new_articles.service
+ln -s /home/prod/misinfo-feed/fetch_new_articles.timer /etc/systemd/system/fetch_new_articles.timer
+systemctl daemon-reload
+
 ```
 
-Make sure you have an entry to fetch the RSS feeds once a day (custom RSS feeds made with fetchrss.com dissapear if not accessed for a week)
+Note that custom RSS feeds made with fetchrss.com dissapear if not accessed for a week. The timer is configured to run at 10:10am UTC every day.
+
+4. check status (run as root)
+run it off schedule to check if it works
 ```
-12 17 * * * docker rm /misinfo-fetch-new-articles && docker run --net=host --name misinfo-fetch-new-articles misinfo-fetch-new-articles:production
+service fetch_new_articles start
+service fetch_new_articles status
+```
+
+see logs
+```
+journalctl -u fetch_new_articles
 ```
 
 #### Test ChatGPT reponses with known article titles
