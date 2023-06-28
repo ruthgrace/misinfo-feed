@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer for periodically fetching new articles to add to misinfo feed.
+Requires=fetch_new_articles.service
+
+[Timer]
+Unit=fetch_new_articles.service
+OnCalendar=*-*-* 10:10:00
+
+[Install]
+WantedBy=timers.target

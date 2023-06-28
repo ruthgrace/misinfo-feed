@@ -1,0 +1,7 @@
+[Unit]
+Description=script that checks for new articles to add to misinfo feed. This is run with a corresponding systemd timer.
+
+[Service]
+ExecStart=docker rm /misinfo-fetch-new-articles && docker run --net=host --name misinfo-fetch-new-articles misinfo-fetch-new-articles:production
+User=prod
+Group=prod
