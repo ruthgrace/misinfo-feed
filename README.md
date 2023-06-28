@@ -151,11 +151,23 @@ cd /home/prod/misinfo-feed/docker
 ```
 ln -s /home/prod/misinfo-feed/fetch_new_articles.service /etc/systemd/system/fetch_new_articles.service
 ln -s /home/prod/misinfo-feed/fetch_new_articles.timer /etc/systemd/system/fetch_new_articles.timer
+systemctl daemon-reload
 
 ```
 
 Note that custom RSS feeds made with fetchrss.com dissapear if not accessed for a week. The timer is configured to run at 10:10am UTC every day.
 
+4. check status (run as root)
+run it off schedule to check if it works
+```
+service fetch_new_articles start
+service fetch_new_articles status
+```
+
+see logs
+```
+journalctl -u fetch_new_articles
+```
 
 #### Test ChatGPT reponses with known article titles
 
