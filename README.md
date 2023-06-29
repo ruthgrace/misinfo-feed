@@ -151,6 +151,7 @@ cd /home/prod/misinfo-feed/docker
 ```
 ln -s /home/prod/misinfo-feed/fetch_new_articles.service /etc/systemd/system/fetch_new_articles.service
 ln -s /home/prod/misinfo-feed/fetch_new_articles.timer /etc/systemd/system/fetch_new_articles.timer
+systemctl enable fetch_new_articles.timer
 systemctl daemon-reload
 
 ```
