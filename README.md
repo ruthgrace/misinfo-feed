@@ -153,7 +153,7 @@ ln -s /home/prod/misinfo-feed/fetch_new_articles.service /etc/systemd/system/fet
 ln -s /home/prod/misinfo-feed/fetch_new_articles.timer /etc/systemd/system/fetch_new_articles.timer
 systemctl enable fetch_new_articles.timer
 systemctl daemon-reload
-
+systemctl start fetch_new_articles.timer
 ```
 
 Note that custom RSS feeds made with fetchrss.com dissapear if not accessed for a week. The timer is configured to run at 10:10am UTC every day.
